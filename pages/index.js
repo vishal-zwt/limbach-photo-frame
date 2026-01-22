@@ -40,7 +40,7 @@ function Home() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // USER PHOTO
-    drawCoverImage(ctx, userImg, 70, 1120, 470, 560);
+    drawCoverImage(ctx, userImg, 20, 765, 155, 165);
 
     // FRAME
     ctx.drawImage(frame, 0, 0, 656, 928);
@@ -50,7 +50,7 @@ function Home() {
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(name, 540, 1570);
+    ctx.fillText(name, 200, 870);
 
     setOutput(canvas.toDataURL("image/png"));
   };
