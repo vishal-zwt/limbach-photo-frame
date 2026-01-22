@@ -43,7 +43,7 @@ function Home() {
     drawCoverImage(ctx, userImg, 70, 1120, 470, 560);
 
     // FRAME
-    ctx.drawImage(frame, 0, 0, 1080, 1920);
+    ctx.drawImage(frame, 0, 0, 656, 928);
 
     // NAME
     ctx.font = "700 52px 'Noto Serif Gujarati'";
