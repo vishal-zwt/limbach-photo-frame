@@ -6,37 +6,49 @@ export default function Home() {
   const [name, setName] = useState("");
   const [output, setOutput] = useState(null);
 
+  const drawCoverImage = (ctx, img, x, y, w, h) => {
+    const ratio = Math.max(w / img.width, h / img.height);
+    const nw = img.width * ratio;
+    const nh = img.height * ratio;
+    const nx = x + (w - nw) / 2;
+    const ny = y + (h - nh) / 2;
+    ctx.drawImage(img, nx, ny, nw, nh);
+  };
+
   const generateImage = async () => {
     const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
     canvas.width = 1080;
     canvas.height = 1920;
-    const ctx = canvas.getContext("2d");
 
     const frame = new Image();
     frame.src = "/frame.png";
 
     const userImg = new Image();
     userImg.src = image;
+    userImg.crossOrigin = "anonymous";
 
     await Promise.all([
       new Promise((res) => (frame.onload = res)),
       new Promise((res) => (userImg.onload = res)),
     ]);
 
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Clear
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // USER PHOTO POSITION (tuned for your frame)
-    ctx.drawImage(userImg, 90, 1040, 420, 520);
+    // Draw user photo (FIXED)
+    drawCoverImage(ctx, userImg, 70, 1120, 470, 560);
 
-    // FRAME OVERLAY
+    // Draw frame
     ctx.drawImage(frame, 0, 0, 1080, 1920);
 
-    // NAME TEXT
-    ctx.font = "600 46px 'Noto Serif Gujarati'";
+    // Draw name (FIXED)
+    ctx.font = "700 52px 'Noto Serif Gujarati'";
     ctx.fillStyle = "#7a1e00";
     ctx.textAlign = "center";
-    ctx.fillText(name, 540, 1650);
+    ctx.textBaseline = "middle";
+    ctx.fillText(name, 540, 1570);
 
     setOutput(canvas.toDataURL("image/png"));
   };
@@ -53,49 +65,3 @@ export default function Home() {
           if (!file) return;
           const reader = new FileReader();
           reader.onload = () => setImage(reader.result);
-          reader.readAsDataURL(file);
-        }}
-      />
-
-      <br /><br />
-
-      <input
-        type="text"
-        placeholder="તમારું નામ લખો"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        style={{ width: "100%", padding: 10 }}
-      />
-
-      <br /><br />
-
-      <button
-        onClick={generateImage}
-        disabled={!image || !name}
-        style={{
-          padding: "12px 20px",
-          background: "#7a1e00",
-          color: "#fff",
-          border: "none",
-          borderRadius: 6,
-          cursor: "pointer"
-        }}
-      >
-        ફોટો બનાવો
-      </button>
-
-      <canvas ref={canvasRef} style={{ display: "none" }} />
-
-      {output && (
-        <>
-          <br /><br />
-          <img src={output} style={{ width: "100%", borderRadius: 10 }} />
-          <br /><br />
-          <a href={output} download="pran-pratistha.png">
-            ⬇️ Download Image
-          </a>
-        </>
-      )}
-    </div>
-  );
-}
