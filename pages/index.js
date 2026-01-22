@@ -40,17 +40,17 @@ function Home() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // USER PHOTO
-    drawCoverImage(ctx, userImg, 20, 765, 155, 165);
+    drawCoverImage(ctx, userImg, 0, 765, 155, 165);
 
     // FRAME
     ctx.drawImage(frame, 0, 0, 656, 928);
 
     // NAME
-    ctx.font = "700 52px 'Noto Serif Gujarati'";
+    ctx.font = "700 40px 'Noto Serif Gujarati'";
     ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
-    ctx.fillText(name, 200, 870);
+    ctx.fillText(name, 400, 900);
 
     setOutput(canvas.toDataURL("image/png"));
   };
