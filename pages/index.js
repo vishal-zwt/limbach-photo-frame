@@ -103,7 +103,7 @@ function Home() {
       {output && (
         <>
           <br /><br />
-          <img src={output} style={{ width: "100%", borderRadius: 10 }} />
+          <img src={output} width={656} height={928} style={{ borderRadius: 10 }} />
           <br /><br />
           <a href={output} download="pran-pratistha.png">
             ⬇️ Download Image
