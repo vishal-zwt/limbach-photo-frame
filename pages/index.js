@@ -22,8 +22,8 @@ function Home() {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    canvas.width = 1080;
-    canvas.height = 1920;
+    canvas.width = 656;
+    canvas.height = 928;
 
     const frame = new Image();
     frame.src = "/frame.png";
