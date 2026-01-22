@@ -47,7 +47,7 @@ function Home() {
 
     // NAME
     ctx.font = "700 52px 'Noto Serif Gujarati'";
-    ctx.fillStyle = "#7a1e00";
+    ctx.fillStyle = "#ffffff";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillText(name, 540, 1570);
