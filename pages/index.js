@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 
-export default function Home() {
+function Home() {
   const canvasRef = useRef(null);
   const [image, setImage] = useState(null);
   const [name, setName] = useState("");
@@ -16,6 +17,8 @@ export default function Home() {
   };
 
   const generateImage = async () => {
+    if (typeof window === "undefined") return;
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
@@ -34,16 +37,15 @@ export default function Home() {
       new Promise((res) => (userImg.onload = res)),
     ]);
 
-    // Clear
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw user photo (FIXED)
+    // USER PHOTO
     drawCoverImage(ctx, userImg, 70, 1120, 470, 560);
 
-    // Draw frame
+    // FRAME
     ctx.drawImage(frame, 0, 0, 1080, 1920);
 
-    // Draw name (FIXED)
+    // NAME
     ctx.font = "700 52px 'Noto Serif Gujarati'";
     ctx.fillStyle = "#7a1e00";
     ctx.textAlign = "center";
@@ -65,3 +67,53 @@ export default function Home() {
           if (!file) return;
           const reader = new FileReader();
           reader.onload = () => setImage(reader.result);
+          reader.readAsDataURL(file);
+        }}
+      />
+
+      <br /><br />
+
+      <input
+        type="text"
+        placeholder="તમારું નામ લખો"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        style={{ width: "100%", padding: 10 }}
+      />
+
+      <br /><br />
+
+      <button
+        onClick={generateImage}
+        disabled={!image || !name}
+        style={{
+          padding: "12px 20px",
+          background: "#7a1e00",
+          color: "#fff",
+          border: "none",
+          borderRadius: 6,
+          cursor: "pointer",
+        }}
+      >
+        ફોટો બનાવો
+      </button>
+
+      <canvas ref={canvasRef} style={{ display: "none" }} />
+
+      {output && (
+        <>
+          <br /><br />
+          <img src={output} style={{ width: "100%", borderRadius: 10 }} />
+          <br /><br />
+          <a href={output} download="pran-pratistha.png">
+            ⬇️ Download Image
+          </a>
+        </>
+      )}
+    </div>
+  );
+}
+
+export default dynamic(() => Promise.resolve(Home), {
+  ssr: false,
+});
